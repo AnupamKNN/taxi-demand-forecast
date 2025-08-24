@@ -3,6 +3,7 @@ import sys
 import pandas as pd
 import requests
 from sklearn.model_selection import train_test_split
+import holidays
 
 from src.taxi_demand.exception.exception import TaxiDemandException
 from src.taxi_demand.logging.logger import logging
@@ -122,11 +123,48 @@ class DataIngestion:
             df['hour'] = df['pickup_hour'].dt.hour
             df['day_of_week'] = df['pickup_hour'].dt.dayofweek
             df['month'] = df['pickup_hour'].dt.month
-            df['is_rain'] = (df['precipitation'] > 0).astype(int)
-            logging.info("Added temporal and weather features")
+            df['is_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)
+            logging.info("Added temporal features")
             return df
         except Exception as e:
             raise TaxiDemandException(f"Failed adding features: {e}", sys)
+        
+    def add_lag_features(self, df):
+        try:
+            df['ride_count_lag_1'] = df.groupby('PULocationID')['ride_count'].shift(1)
+            df['ride_count_lag_24'] = df.groupby('PULocationID')['ride_count'].shift(24)
+            df['ride_count_lag_168'] = df.groupby('PULocationID')['ride_count'].shift(168)
+            logging.info("Added lag features")
+            return df
+        except Exception as e:
+            raise TaxiDemandException(f"Failed adding lag features: {e}", sys)
+    
+    def add_rolling_statistics(self, df):
+        try:
+            df['ride_count_roll_mean_3'] = df.groupby('PULocationID')['ride_count'].transform(lambda x: x.shift(1).rolling(window = 3).mean())
+            df['ride_count_roll_std_3'] = df.groupby('PULocationID')['ride_count'].transform(lambda x: x.shift(1).rolling(window = 3).std())
+            logging.info("Added rolling statistics")
+            return df
+        except Exception as e:
+            raise TaxiDemandException(f"Failed adding rolling statistics: {e}", sys)
+        
+    def add_date_holiday(self, df):
+        try:
+            df['date'] = df['pickup_hour'].dt.date
+            us_holidays = holidays.US()
+            df['is_holiday'] = df['date'].isin(us_holidays).astype(int)
+            logging.info("Added date and holiday features")
+            return df
+        except Exception as e:
+            raise TaxiDemandException(f"Failed adding date and holiday features: {e}", sys)
+        
+    def add_rain_status(self, df):
+        try:
+            df['is_rain'] = (df['precipitation'] > 0).astype(int)
+            logging.info("Added rain status feature")
+            return df
+        except Exception as e:
+            raise TaxiDemandException(f"Failed adding rain status feature: {e}", sys)
 
     def split_and_save_data(self, df):
         try:
@@ -168,9 +206,14 @@ class DataIngestion:
             weather_path = self.fetch_weather_data()
             trip_files = self.fetch_tlc_trip_data()
 
+
             merged_df = self.load_and_merge_datasets(trip_files, weather_path)
             df_with_features = self.add_temporal_features(merged_df)
-            artifact = self.split_and_save_data(df_with_features)
+            df_with_lags = self.add_lag_features(df_with_features)
+            df_with_rolling_stats = self.add_rolling_statistics(df_with_lags)
+            df_with_date_holiday = self.add_date_holiday(df_with_rolling_stats)
+            df_with_rain_status = self.add_rain_status(df_with_date_holiday)
+            artifact = self.split_and_save_data(df_with_rain_status)
 
             logging.info("Data ingestion workflow completed successfully")
             return artifact

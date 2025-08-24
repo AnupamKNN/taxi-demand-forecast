@@ -1,0 +1,43 @@
+columns:
+  pickup_hour: object
+  PULocationID: int64
+  temperature_2m: float64
+  precipitation: float64
+  weathercode: int64
+  hour: int64
+  day_of_week: int64
+  month: int64
+  is_weekend: int64
+  date: object
+  is_holiday: int64
+  ride_count_lag_1: float64
+  ride_count_lag_24: float64
+  ride_count_lag_168: float64
+  ride_count_roll_mean_3: float64
+  ride_count_roll_std_3: float64
+  is_rain: int64
+  ride_count: int64
+
+numerical_columns:
+  - PULocationID: int64
+  - temperature_2m: float64
+  - precipitation: float64
+  - weathercode: int64
+  - hour: int64
+  - day_of_week: int64
+  - month: int64
+  - is_weekend: int64
+  - date: object
+  - is_holiday: int64
+  - ride_count_lag_1: float64
+  - ride_count_lag_24: float64
+  - ride_count_lag_168: float64
+  - ride_count_roll_mean_3: float64
+  - ride_count_roll_std_3: float64
+  - is_rain: int64
+
+categorical_columns:
+  - pickup_hour: object
+
+target_column:
+  - ride_count: int64

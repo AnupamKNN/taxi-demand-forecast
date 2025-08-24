@@ -17,3 +17,4 @@ holidays
 scikit-learn
 pymongo
 python-dotenv
+pyaml
