@@ -1,0 +1,5 @@
+outs:
+- md5: 6c986c01354cbecf96774892dafcbdd9
+  size: 88458
+  hash: md5
+  path: nyc_weather_jan_apr_2025_2025.csv

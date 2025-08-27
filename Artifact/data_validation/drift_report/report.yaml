@@ -1,36 +1,36 @@
 PULocationID:
   drift_status: false
-  p_value: 0.2427215617335705
+  p_value: 0.20243585147688892
 date:
   drift_status: false
-  p_value: 0.993123011422585
+  p_value: 0.26004037351923304
 day_of_week:
   drift_status: false
-  p_value: 0.9993479595789002
+  p_value: 0.6500503157167989
 hour:
   drift_status: false
-  p_value: 0.8320552494575921
+  p_value: 0.3316130740400036
 is_holiday:
   drift_status: false
   p_value: 1.0
 is_rain:
   drift_status: false
-  p_value: 0.9999992361307348
+  p_value: 0.9999870042613993
 is_weekend:
   drift_status: false
-  p_value: 1.0
+  p_value: 0.6500503157167989
 month:
   drift_status: false
-  p_value: 0.99947321340128
+  p_value: 0.47361568998736114
 pickup_hour:
   drift_status: false
-  p_value: 0.9657569021629895
+  p_value: 0.2277296245732484
 precipitation:
   drift_status: false
-  p_value: 0.9998296340598296
+  p_value: 0.9999870042613993
 ride_count:
   drift_status: false
-  p_value: 0.9123452979323385
+  p_value: 0.33348933342048315
 ride_count_lag_1:
   drift_status: false
   p_value: .nan
@@ -48,7 +48,7 @@ ride_count_roll_std_3:
   p_value: .nan
 temperature_2m:
   drift_status: false
-  p_value: 0.8848486191969513
+  p_value: 0.863877769725512
 weathercode:
   drift_status: false
-  p_value: 0.9840274387799444
+  p_value: 0.9988214016789162

@@ -46,7 +46,7 @@ class DataTransformation:
             logging.info("Creating ColumnTransformer with OrdinalEncoder and StandardScaler")
             preprocessor = ColumnTransformer(
                 transformers = [
-                    ("cat", OrdinalEncoder(), self.categorical_cols),
+                    ("cat", OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1), self.categorical_cols),
                     ("num", StandardScaler(), self.numerical_cols)
                 ],
                 remainder = "passthrough"
@@ -122,6 +122,8 @@ class DataTransformation:
             test_features_df[self.target_column] = target_feature_test_df
 
             # Save as CSV files (update paths to .csv)
+            os.makedirs(os.path.dirname(self.data_transformation_config.transformed_train_file_path), exist_ok=True)
+            os.makedirs(os.path.dirname(self.data_transformation_config.transformed_test_file_path), exist_ok=True)
             train_csv_path = self.data_transformation_config.transformed_train_file_path.replace('.npy', '.csv')
             test_csv_path = self.data_transformation_config.transformed_test_file_path.replace('.npy', '.csv')
 

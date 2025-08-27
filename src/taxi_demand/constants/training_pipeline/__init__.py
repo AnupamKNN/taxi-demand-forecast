@@ -32,7 +32,7 @@ DATA_INGESTION_DIR_NAME: str = "data_ingestion"
 DATA_INGESTION_YEAR: int = 2025
 
 # List months to ingest (can expand/change as needed)
-DATA_INGESTION_TLC_TRIP_MONTHS = [1, 2, 3]  # January-February-March example
+DATA_INGESTION_TLC_TRIP_MONTHS = [1, 2, 3, 4]  # January-February-March (example)
 
 DATA_INGESTION_TLC_TRIP_COLLECTION_TEMPLATE: str = "yellow_tripdata_{year}-{month:02d}"
 DATA_INGESTION_TLC_TRIP_FILE_TEMPLATE: str = "yellow_tripdata_{year}-{month:02d}.parquet"
