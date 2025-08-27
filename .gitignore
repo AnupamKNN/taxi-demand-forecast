@@ -36,12 +36,13 @@ Artifact/data_ingestion/ingested/test.csv
 Artifact/data_ingestion/ingested/train.csv
 
 # Ignore csv files in data_validation/validated
-data_validation/validated/*.csv
+Artifact/data_validation/validated/*.csv
 
 # Ignore csv and pkl files in data_transformation/transformed
 Artifact/data_transformation/*.csv
 Artifact/data_transformation/*.pkl
 Artifact/data_transformation/test.csv
+Artifact/data_transformation/train.csv
 
 # Ignore large data files generally except in final_models
 # (removes ignoring CSV files globally, as they can be important except in ML_research_notebooks)
