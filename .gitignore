@@ -2,8 +2,7 @@
 project_logs
 
 # Ignore everything in final_models except .pkl files
-final_models/*
-!final_models/*.pkl
+
 
 # Ignore Python cache and compiled files
 __pycache__/
