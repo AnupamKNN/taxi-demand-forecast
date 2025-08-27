@@ -1,10 +1,12 @@
 from src.taxi_demand.components.data_ingestion import DataIngestion
 from src.taxi_demand.components.data_validation import DataValidation
+from src.taxi_demand.components.data_transformation import DataTransformation
+from src.taxi_demand.components.model_trainer import ModelTrainer
 
 
 from src.taxi_demand.exception.exception import TaxiDemandException
 from src.taxi_demand.logging.logger import logging
-from src.taxi_demand.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig, DataValidationConfig
+from src.taxi_demand.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainerConfig
 
 import sys
 
@@ -26,6 +28,22 @@ if __name__ == "__main__":
         logging.info("Initiating Data Validation")
         data_validation_artifact = data_validation.initiate_data_validation()
         logging.info("Data Validation completed.")
+
+        # Data Transformation
+        data_transformation_config = DataTransformationConfig(training_pipeline_config=training_pipeline_config)
+        data_transformation = DataTransformation(data_validation_artifact=data_validation_artifact,
+                                                 data_transformation_config=data_transformation_config)
+        logging.info("Initiating Data Transformation")
+        data_transformation_artifact = data_transformation.initiate_data_transformation()
+        logging.info("Data Transformation completed.")
+
+        # Model Trainer
+        model_trainer_config = ModelTrainerConfig(training_pipeline_config=training_pipeline_config)
+        model_trainer = ModelTrainer(data_transformation_artifact=data_transformation_artifact,
+                                     model_trainer_config=model_trainer_config)
+        logging.info("Initiating Model Trainer")
+        model_trainer_artifact = model_trainer.initiate_model_trainer()
+        logging.info("Model Trainer completed.")
     
     except Exception as e:
         raise TaxiDemandException(e, sys)

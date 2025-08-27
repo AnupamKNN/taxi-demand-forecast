@@ -67,3 +67,33 @@ DATA_VALIDATION_VALID_DIR: str = "validated"
 DATA_VALIDATION_INVALID_DIR: str = "invalid"
 DATA_VALIDATION_DRIFT_REPORT_DIR: str = "drift_report"
 DATA_VALIDATION_DRIFT_REPORT_FILE_NAME: str = "report.yaml"
+
+
+"""
+Data Transformation related constants start with DATA_TRANSFORMATION VAR NAME
+"""
+
+DATA_TRANSFORMATION_DIR_NAME = "data_transformation"
+DATA_TRANSFORMATION_TRANSFORMED_DIR = "transformed"
+DATA_TRANSFORMATION_PREPROCESSOR_OBJECT_DIR = "preprocessor"
+PREPROCESSOR_OBJECT_FILE_NAME = "preprocessor.pkl"
+
+
+"""
+Model Trainer related constants start with MODEL_TRAINER VAR NAME
+"""
+
+MODEL_TRAINER_DIR_NAME = "model_trainer"
+MODEL_TRAINER_TRAINED_MODEL_DIR = "trained_model"
+MODEL_TRAINER_TRAINED_MODEL_NAME = "model.keras"
+MODEL_TRAINER_EXPECTED_SCORE = 0.85
+MODEL_TRAINER_OVER_FITTING_UNDER_FITTING_THRESHOLD = 0.05
+
+"""
+Model Pusher related constants start with MODEL_PUSHER VAR NAME
+"""
+
+MODEL_PUSHER_DIR = "final_models"
+MODEL_PUSHER_LABEL_ENCODER_DIR = "label_encoders"
+MODEL_PUSHER_SCALER_DIR = "scaler"
+MODEL_PUSHER_MODEL_NAME = "model.pkl"

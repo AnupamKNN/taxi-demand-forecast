@@ -3,6 +3,8 @@ from src.taxi_demand.exception.exception import TaxiDemandException
 from src.taxi_demand.logging.logger import logging
 
 import numpy as np
+import pandas as pd
+import pickle
 
 import os, sys
 
@@ -48,3 +50,35 @@ def write_yaml_file(file_path: str, content: object, replace: bool = False) -> N
         logging.info(f"YAML file '{file_path}' written successfully.")
     except Exception as e:
         raise TaxiDemandException(e, sys) from e
+    
+def save_dataframe_to_csv(file_path: str, df: pd.DataFrame):
+    try:
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        df.to_csv(file_path, index=False)
+    except Exception as e:
+        raise TaxiDemandException(e, sys)
+
+def load_csv_to_dataframe(file_path: str) -> pd.DataFrame:
+    try:
+        return pd.read_csv(file_path)
+    except Exception as e:
+        raise TaxiDemandException(e, sys)
+
+    
+def save_object(file_path: str, obj: object) -> None:
+    try:
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, 'wb') as file_obj:
+            pickle.dump(obj, file_obj)
+    except Exception as e:
+        raise TaxiDemandException(e, sys)
+    
+def load_object(file_path: str) -> object:
+    try:
+        if not os.path.exists(file_path):
+            raise Exception(f"The file: {file_path} does not exist.")
+        with open(file_path, 'rb') as file_obj:
+            return pickle.load(file_obj)
+    except Exception as e:
+        raise TaxiDemandException(e, sys)
+

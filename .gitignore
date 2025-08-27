@@ -27,6 +27,20 @@ venv/
 # Logs
 logs/
 *.log
+# Ignore CSV and parquet files in data_ingestion/feature_store
+data_ingestion/feature_store/*.csv
+data_ingestion/feature_store/*.parquet
+
+# Ignore csv files in data_ingestion/ingested
+Artifact/data_ingestion/ingested/test.csv
+Artifact/data_ingestion/ingested/train.csv
+
+# Ignore csv files in data_validation/validated
+data_validation/validated/*.csv
+
+# Ignore csv and pkl files in data_transformation/transformed
+data_transformation/*.csv
+data_transformation/*.pkl
 
 # Ignore large data files generally except in final_models
 # (removes ignoring CSV files globally, as they can be important except in ML_research_notebooks)

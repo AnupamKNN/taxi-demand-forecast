@@ -126,6 +126,10 @@ class DataValidation:
             # Detect dataset drift
             drift_status = self.detect_dataset_drift(base_df=train_dataframe, current_df=test_dataframe)
             os.makedirs(os.path.dirname(self.data_validation_config.valid_train_file_path), exist_ok=True)
+            
+
+            train_dataframe.to_csv(self.data_validation_config.valid_train_file_path, index=False)
+            test_dataframe.to_csv(self.data_validation_config.valid_test_file_path, index=False)
 
             data_validation_artifact = DataValidationArtifact(
                 validation_status=drift_status,
