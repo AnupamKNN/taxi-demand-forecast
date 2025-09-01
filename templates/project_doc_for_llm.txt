@@ -1,0 +1,160 @@
+# Project Documentation: Taxi/Ride-share Demand Forecasting & Supply Optimization
+
+---
+
+## 1. Project Overview
+
+### Business Problem  
+Ride-share and taxi operators face significant challenges in managing the supply-demand balance across urban zones. Customer demand fluctuates dynamically across hours of the day, days of the week, seasons, and in response to local events or weather. Without accurate forecasting, companies experience:
+
+- **Over-supply**: Excess idle drivers lead to increased operational cost and driver dissatisfaction.
+- **Under-supply**: Demand surges cause longer passenger wait times, lost revenue, and customer churn.
+- **Revenue Loss**: Failure to anticipate surge pricing opportunities or driver incentives reduces profitability.
+- **Service Inequality**: Poor deployment affects customer experience in some zones or times.
+
+Operators including Uber, Lyft, Ola, and local taxi services must efficiently forecast demand to optimize resource allocation and improve overall service.
+
+### Use Case  
+This project focuses on predicting taxi and ride-share demand spatially and temporally, providing:
+
+- Accurate **hourly forecasts** of rides for specific pickup zones.
+- Insights on how **external factors** like weather, holidays, and events influence demand.
+- Support for decision making in driver deployment, pricing strategies, and operational planning.
+
+The system aims to minimize idle assets, reduce wait times, and improve earnings for both drivers and operations.
+
+### Example Use Case Scenarios  
+- Morning/evening rush hours showing elevated demand near business districts and transit hubs.  
+- Event-driven demand spikes following concerts, sports, or festivals.  
+- Weather impacts such as increased demand during rain or snow periods.  
+- Holiday and weekend fluctuations affecting daily ride patterns.
+
+### Beneficiaries  
+- **Dispatch Managers:** Optimize scheduling and vehicle allocation.  
+- **Drivers:** Target high-demand periods and areas to maximize income.  
+- **Operations Teams:** Reduce unnecessary overhead, improve service levels.  
+- **Customers:** Experience faster rides and higher reliability.
+
+### Project Objective  
+Design and deploy a machine learning-driven system to forecast real-time ride demand in urban areas, optimize driver distribution, and reduce wait times, exemplified via the fictional ride-share platform OrionCab. The solution leverages historical trip, weather, event, and traffic data, combined with advanced ML and time series techniques.
+
+---
+
+## 2. Data Description
+
+### Data Sources  
+- **Weather Data:** Hourly meteorological data obtained via the Open-Meteo API for NYC, covering temperature, precipitation, and weather condition codes between January 1, 2025, and April 30, 2025.
+- **Traffic Data:** NYC taxi trip records stored as monthly Parquet files, from January to April 2025, containing pickup times, locations, and ride counts.
+
+### Data Preprocessing  
+- **Missing Values:** Numeric features imputed with zeros to maintain dataset integrity without biasing results. Date/time fields filled with the Unix epoch timestamp (1970-01-01) as a placeholder.
+- **Categorical Encoding:** Applied ordinal encoding to categorical variables such as `PULocationID` (pickup location IDs), `weathercode`, `hour`, `day_of_week`, and `month`. This efficiently converts categories into an ordered numeric format.
+- **Scaling:** Standard scaling applied to numerical features (`temperature_2m`, `precipitation`, various lag and rolling count features) to normalize inputs, aiding model training stability and convergence.
+
+---
+
+## 3. Feature Descriptions
+
+| Feature                | Description                                                                                     |
+|------------------------|-------------------------------------------------------------------------------------------------|
+| **pickup_hour**        | Timestamp rounded to the hour, including timezone info (e.g., "2025-01-01 08:00:00-0500").      |
+| **PULocationID**       | Integer representing the NYC taxi pickup zone; unique per zone to capture location demand patterns. |
+| **temperature_2m**     | Air temperature at 2 meters above the surface, measured in degrees Celsius.                      |
+| **precipitation**      | Total precipitation during the hour, in millimeters.                                            |
+| **weathercode**        | Categorical weather condition code representing states such as clear, drizzle, rain, snow, etc.  |
+| **hour**               | Integer hour of day (0–23) derived from pickup_hour, capturing time-dependent demand cycles.     |
+| **day_of_week**        | Integer day of week (0=Monday to 6=Sunday).                                                     |
+| **month**              | Integer month (1–12), capturing seasonal influences on demand.                                  |
+| **is_weekend**         | Binary indicator (1 for Saturday/Sunday, 0 otherwise).                                          |
+| **date**               | Calendar date extracted from pickup_hour, without time component.                              |
+| **is_holiday**         | Binary feature indicating public holidays, leveraging US holiday calendar data.                  |
+| **ride_count_lag_1**   | Ride count observed in the same pickup location one hour prior, capturing temporal trends.       |
+| **ride_count_lag_24**  | Ride count same hour previous day (lagged 24 hours), modeling daily seasonality.                |
+| **ride_count_lag_168** | Ride count same hour previous week (lagged 168 hours), modeling weekly seasonality.              |
+| **ride_count_roll_mean_3** | Rolling average of ride counts over the past three hours, excluding current hour, for short-term trend modeling. |
+| **ride_count_roll_std_3** | Rolling standard deviation of ride counts over past three hours, quantifying recent variability. |
+| **is_rain**            | Binary flag indicating presence of rain (1 if precipitation > 0 mm, else 0).                    |
+| **ride_count**         | Actual observed number of rides at location and hour — model’s target variable.                  |
+
+---
+
+## 4. Model Description
+
+### Framework & Implementation  
+- Built with TensorFlow utilizing GPU acceleration for efficient processing of over millions of data points.  
+- Model architecture leverages embedding layers for high-cardinality categorical inputs to capture semantic relations and reduce dimensionality.
+
+### Architecture and Layers  
+- Separate inputs for each categorical variable, each passed through embedding layers.  
+- Flattened embeddings concatenated with standardized numerical features.  
+- Multiple fully connected dense layers with ReLU activation capture nonlinear interactions.  
+- Output layer predicts ride count using a linear activation.
+
+### Training Procedure  
+- Dataset randomly split into training (80%) and validation (20%) folds.  
+- Model trained with batch size 1024 over 10 epochs.  
+- Hyperparameter tuning with Keras Tuner RandomSearch for embedding sizes, dense layer units, dropout rates, and learning rate to maximize validation loss improvement.  
+- Final model retrained on combined full dataset using optimal hyperparameters.
+
+### Model Performance  
+- **Mean Absolute Error (MAE):** 5.55 — Average absolute deviation in predicted ride count.  
+- **Mean Squared Error (MSE):** 157.81 — Penalizes larger errors quadratically.  
+- **Root Mean Squared Error (RMSE):** 12.56 — Interpretable scale error measure in ride counts.  
+- **R-squared (R²):** 0.972 — Indicates excellent model fit explaining 97.2% of variance.
+
+These metrics represent a highly accurate model capable of reliable demand forecasting.
+
+---
+
+## 5. Deployment Details
+
+- Data preprocessing pipeline (ordinal encoding + standard scaling) encapsulated in `preprocessor.pkl`.  
+- Trained TensorFlow model saved as `model.keras`.  
+- Streamlit app dynamically loads model and preprocessor for inference.  
+- Includes target-derived lag and rolling feature generation from historical data.  
+- User-facing UI captures inputs such as location, date/time, weather state, and holiday/rain flags to generate predictions.
+
+---
+
+## 6. Tools & Technologies Employed
+
+- **Programming Language:** Python 3.10  
+- **ML Framework:** TensorFlow with GPU support  
+- **Data Manipulation:** Pandas, Numpy  
+- **Visualization:** Matplotlib, Seaborn  
+- **MLOps:** MLFlow, DVC for tracking experiments and data versioning  
+- **DevOps:** GitHub Actions for CI/CD pipelines, Docker for containerization  
+- **UI:** Streamlit for user interface development
+
+---
+
+## 7. Assumptions and Limitations
+
+- Limited data coverage to first four months of 2025 due to system memory constraints.  
+- Binary holiday feature created using the US holiday calendar library.  
+- Weather represented via discrete coded categories; may omit microclimate variations.  
+- Model captures city-wide demand but may not detect hyper-local anomalies.  
+- No real-time streaming data; predictions based on historical aggregates.
+
+---
+
+## 8. Future Scope
+
+- Develop a bulk prediction page enabling batch forecasts across multiple locations and timeframes, automating operational planning at scale.  
+- Integrate streaming data sources for real-time weather, traffic, and event information for adaptive forecasting.  
+- Enhance spatial granularity and visualization for hyper-local demand predictions.  
+- Incorporate integration with driver apps to provide live dispatch and positioning recommendations.  
+- Add advanced explainability and scenario simulation features, including LLM-powered natural language interfaces.  
+- Establish automated model retraining pipelines to incorporate incoming data continuously.
+
+---
+
+## 9. Constants and Configuration
+
+- **LOCATION_DICT:** Mapping of NYC neighborhood names to their respective numeric pickup location IDs, facilitating coherent feature encoding and UI display.  
+- **WEATHER_DICT:** Numeric weather codes with corresponding textual descriptions, aiding in human readable outputs and explanations.  
+- **NY_TZ:** Timezone configuration set to America/New_York ensuring all time-based features and predictions are localized correctly.  
+- **HIST_PATH:** Filepath pointing to historical ride data source required for lag/rolling feature calculations.  
+- **REQUIRED_TARGET_DERIVED:** List of lagging and rolling statistical features critical to model input preparation.
+
+---

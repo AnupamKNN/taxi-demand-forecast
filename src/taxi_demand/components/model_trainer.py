@@ -85,7 +85,7 @@ class ModelTrainer:
                 rate = hp.Float(f"dropout_rate_{i}", min_value=0.1, max_value=0.5, step=0.1)
                 x = Dropout(rate)(x)
 
-        output = Dense(1, activation='linear')(x)
+        output = Dense(1, activation='relu')(x)
 
         model = Model(inputs=[*inputs.values(), numeric_inputs], outputs=output)
 
@@ -106,11 +106,11 @@ class ModelTrainer:
             test_df = load_csv_to_dataframe(self.data_transformation_artifact.transformed_test_file_path)
 
             categorical_cardinalities = {
-                'PULocationID': 263,
-                'weathercode': 36,
+                'PULocationID': 264,
+                'weathercode': 14,
                 'hour': 24,
                 'day_of_week': 7,
-                'month': 12
+                'month': 4
             }
             cat_cols = list(categorical_cardinalities.keys())
             numeric_cols = ['is_weekend', 'is_holiday', 'is_rain',
@@ -131,20 +131,10 @@ class ModelTrainer:
                 objective = 'val_loss',
                 max_trials = 20,
                 executions_per_trial = 1, 
-                directory = 'tuner_dir',
+                directory = 'Artifact/model_trainer/tuner_dir',
                 project_name = 'taxi_demand_forecasting'
             )
 
-            # tuner = kt.RandomSearch(
-            #     hypermodel=lambda hp: self.build_model(hp, categorical_cardinalities),
-            #     objective='val_loss',
-            #     max_trials=20,
-            #     executions_per_trial=1,
-            #     directory=self.model_trainer_config.model_trainer_dir,
-            #     project_name='ride_count_forecasting',
-            #     max_retries_per_trial=3,
-            #     max_consecutive_failed_trials=10
-            # )
 
             tuner.search(train_inputs, y_train, validation_data=(val_inputs, y_test), epochs=10, batch_size=1024)
 
@@ -157,7 +147,11 @@ class ModelTrainer:
             logging.info(f"Saved best model at: {model_save_path}")
 
             train_preds = best_model.predict(train_inputs).squeeze()
+            train_preds = np.round(np.clip(train_preds, 0, None)).astype(int)  # all predictions, non-negative integers
+
             test_preds = best_model.predict(val_inputs).squeeze()
+            test_preds = np.round(np.clip(test_preds, 0, None)).astype(int)   # all predictions, non-negative integers
+
 
             train_metrics = get_regression_score(y_train, train_preds)
             test_metrics = get_regression_score(y_test, test_preds)

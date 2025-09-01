@@ -74,3 +74,6 @@ Artifacts/**
 !Artifacts/**/.gitkeep
 !Artifacts/**/
 .env
+
+# Ignore tuner_dir
+Artifact/model_trainer/tuner_dir
