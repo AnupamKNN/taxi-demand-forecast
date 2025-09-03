@@ -68,10 +68,10 @@ jobs:
           tags: ghcr.io/anupamknn/taxi-demand-forecast:latest
 
   deploy:
-    name: Deployment Placeholder
+    name: Deployment
     runs-on: ubuntu-latest
     needs: docker_build_and_push
     if: github.ref == 'refs/heads/main'
     steps:
-      - name: Deployment Placeholder
+      - name: Deployment
         run: echo "Deploying to environment (Kubernetes, ECS, etc.)..."

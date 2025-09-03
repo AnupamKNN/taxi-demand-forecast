@@ -1,7 +1,7 @@
 # Ignore virtualenvs
 tdenv/
 venv/
-.env/        # if it's a venv folder, not the env file
+.env        # if it's a venv folder, not the env file
 
 # Python cache
 __pycache__/
