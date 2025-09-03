@@ -330,11 +330,11 @@ We report standard regression metrics on a holdout set:
 
 ```mermaid
 flowchart LR
-    A[📥 Data Ingestion<br><sub>Fetch & store raw data</sub>] --> 
-    B[✅ Data Validation<br><sub>Check schema & data quality</sub>] --> 
-    C[🔄 Data Transformation<br><sub>Clean & preprocess data</sub>] --> 
-    D[🤖 Model Training & Evaluation<br><sub>Train & compare models</sub>] --> 
-    E[🚀 Best Model to Production<br><sub>Deploy latest optimal model</sub>]
+    A[📥 Data Ingestion: Fetch & store raw data] --> 
+    B[✅ Data Validation: Check schema & data quality] --> 
+    C[🔄 Data Transformation: Clean & preprocess data] --> 
+    D[🤖 Model Training & Evaluation: Train & compare models] --> 
+    E[🚀 Best Model to Production: Deploy latest optimal model]
 ```
 
 ---
