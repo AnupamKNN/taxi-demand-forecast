@@ -200,7 +200,7 @@ with st.sidebar:
 
     st.markdown("----")
     st.header("📖 Ask about inputs or predictions!")
-    bot_query = st.text_input("Ask the assistant \n( e.g. What is precipitation (mm)? \n or \n explain how precipitation (mm) = 21.21 will affect the prediciton?)", key="chatbot_query", label_visibility="visible")
+    bot_query = st.text_input("Ask the assistant \n( e.g. What is precipitation (mm)? \n or \n Explain how precipitation (mm) = 21.21 will affect the prediction?)", key="chatbot_query", label_visibility="visible")
     if bot_query:
         historical_summary = hist_df.head(50).to_markdown(index=False, numalign="left", stralign="left")
         response = qa_chain.invoke({
