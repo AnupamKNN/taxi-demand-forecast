@@ -62,8 +62,9 @@ def load_assets():
 
     qa_prompt_template = PromptTemplate.from_template(
         "You are a helpful assistant for a taxi demand forecasting application. "
-        "Answer the user's question. If the user asks for a general explanation of a term or feature, provide a concise explanation, possibly referencing the provided historical data summary as an example. "
+        "Answer the user's question. If the user asks for a general explanation of a term or feature, provide a concise explanation, possibly referencing the provided project document and historical data summary as an example. "
         "If the user's question can only be answered by the data, base your answer on the provided summary. "
+        "Project Document:\n{project_doc}\n\n"
         "Historical Data Summary:\n{historical_data}\n\n"
         "User's Question:\n{query}"
     )
