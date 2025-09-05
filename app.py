@@ -207,9 +207,11 @@ with st.sidebar:
     bot_query = st.text_input("Ask the assistant \n( e.g. What is precipitation (mm)? \n or \n Explain how precipitation (mm) = 21.21 will affect the prediction?)", key="chatbot_query", label_visibility="visible")
     if bot_query:
         historical_summary = hist_df.head(50).to_markdown(index=False, numalign="left", stralign="left")
+        project_doc_summary = "This project predicts NYC taxi demand using historical data, weather, and holidays. It uses TensorFlow models, preprocessing, and Streamlit dashboard for interactive predictions."
         response = qa_chain.invoke({
             "query": bot_query,
-            "historical_data": historical_summary
+            "historical_data": historical_summary,
+            "project_doc": project_doc_summary
         })
         answer = response.get("text")
         display_structured_text(answer)
