@@ -61,13 +61,16 @@ def load_assets():
     scenario_chain = LLMChain(llm=llm, prompt=scenario_prompt_template)
 
     qa_prompt_template = PromptTemplate.from_template(
-        "You are a helpful assistant for a taxi demand forecasting application. "
-        "Answer the user's question. If the user asks for a general explanation of a term or feature, provide a concise explanation, possibly referencing the provided project document and historical data summary as an example. "
-        "If the user's question can only be answered by the data, base your answer on the provided summary. "
-        "Project Document:\n{project_doc}\n\n"
-        "Historical Data Summary:\n{historical_data}\n\n"
-        "User's Question:\n{query}"
+    "You are a helpful assistant for a taxi demand forecasting application. "
+    "Answer the user's question clearly and concisely. "
+    "If the user asks for a general explanation of a term or feature, provide a brief explanation, possibly referencing the provided project document or historical data summary as an example. "
+    "If the user's question can only be answered from the data, base your answer on the provided summary. "
+    "If the information is not available in the document or data, respond politely that the answer is not available. \n\n"
+    "Project Document:\n{project_doc}\n\n"
+    "Historical Data Summary:\n{historical_data}\n\n"
+    "User's Question:\n{query}"
     )
+
     qa_chain = LLMChain(llm=llm, prompt=qa_prompt_template)
 
     return model, preprocessor, llm, explanation_chain, report_chain, scenario_chain, qa_chain
@@ -200,7 +203,7 @@ with st.sidebar:
         st.rerun()
 
     st.markdown("----")
-    st.header("📖 Ask about inputs or predictions!")
+    st.header("📖 Ask about the app, project, inputs or predictions!")
     bot_query = st.text_input("Ask the assistant \n( e.g. What is precipitation (mm)? \n or \n Explain how precipitation (mm) = 21.21 will affect the prediction?)", key="chatbot_query", label_visibility="visible")
     if bot_query:
         historical_summary = hist_df.head(50).to_markdown(index=False, numalign="left", stralign="left")
