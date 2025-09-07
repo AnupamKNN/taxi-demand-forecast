@@ -1,10 +1,10 @@
 ## Taxi/Ride-share Demand Forecasting & Supply Optimization for OrionCabs
 
-[Link to Live Project]()
+[Link to Live Project](https://taxi-demand-forecast-9wmwrc6fz8ma4v8ay4285r.streamlit.app/)
 
-[Link to DagsHub Repository]()
+[Link to DagsHub Repository](https://dagshub.com/AnupamKNN/taxi-demand-forecast)
 
-[Link to Presentation Video]()
+[Link to Presentation Video](https://youtu.be/biS83GinVEE)
 
 [Link to LinkedIn post]()
 
