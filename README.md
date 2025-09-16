@@ -165,11 +165,11 @@ If a manual setup is preferred, follow these steps:
 
 **Prerequisites:**
 
-* **Python 3.10** or higher installed.
+* **Python 3.11** or higher installed.
 
 1.  **Clone the Repository:**
   ```bash
-  git clone https://github.com/<your-gh-username>/taxi_demand_forecast.git
+  git clone https://github.com/AnupamKNN/taxi-demand-forecastt.git
   ```
 
 2. *** Locate to the project folder:***
@@ -184,7 +184,7 @@ If a manual setup is preferred, follow these steps:
 #### 1️⃣ Create a virtual environment
   
     ```bash
-    python3.10 -m venv venv
+    python3.11 -m venv venv
     ```
 
 #### 2️⃣ Activate the virtual environment
@@ -202,6 +202,7 @@ If a manual setup is preferred, follow these steps:
 ##### For Windows (Command Prompt):
     ```bash
     .\venv\Scripts\activate
+    ```
 
 #### 3️⃣ Install dependencies
     ```bash
