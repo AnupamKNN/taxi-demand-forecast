@@ -134,7 +134,7 @@ This project builds a **predictive & prescriptive** layer that anticipates deman
 1.  **Pull the Docker Image:**
  The Docker image is pre-built and pushed to GitHub Container Registry (GHCR). Pull it directly:
   ```bash
-  docker pull ghcr.io/AnupamKNN/taxi-demand-forecast:latest
+  docker pull ghcr.io/anupamknn/taxi-demand-forecast:latest
   ```
 
 **Or build locally from source:**
@@ -149,7 +149,7 @@ This project builds a **predictive & prescriptive** layer that anticipates deman
 2.  **Run the Docker Container:**
 Once the image is pulled, you can run the application. The container will listen on map port `8502` on your local machine (adjust if your app uses a different port).
   ```bash
-  docker run -p 8501:8501 ghcr.io/AnupamKNN/taxi-demand-forecast:latest
+  docker run -p 8501:8501 ghcr.io/anupamknn/taxi-demand-forecast:latest
   ```
 
 3.  **Access the Application:**
