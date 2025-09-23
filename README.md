@@ -70,7 +70,7 @@ This project builds a **predictive & prescriptive** layer that anticipates deman
 
 ---
 
-### 📈 Expected Impact
+### 📈 Impact
 
 | Metric                   | Projected Outcome                         |
 | ------------------------ | ----------------------------------------- |
