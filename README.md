@@ -6,7 +6,7 @@
 
 [Link to Presentation Video](https://youtu.be/biS83GinVEE)
 
-[Link to LinkedIn post]()
+[Link to LinkedIn post](https://www.linkedin.com/posts/anupam-singh-1l_genai-ai-machinelearning-activity-7373696950585556992-gJz7?utm_source=share&utm_medium=member_desktop&rcm=ACoAACTx8xsBG5OdxDsxposmyvR-JD_HZhoD33I)
 
 
 ---
