@@ -169,7 +169,7 @@ If a manual setup is preferred, follow these steps:
 
 1.  **Clone the Repository:**
   ```bash
-  git clone https://github.com/AnupamKNN/taxi-demand-forecastt.git
+  git clone https://github.com/AnupamKNN/taxi-demand-forecast.git
   ```
 
 2. *** Locate to the project folder:***
