@@ -68,18 +68,6 @@ This project builds a **predictive & prescriptive** layer that anticipates deman
 * Provide **explainable insights** (LLM‑assisted) for non‑technical teams.
 * Offer a **clean, self‑serve Streamlit UI** for operations.
 
----
-
-### 📈 Impact
-
-| Metric                   | Projected Outcome                         |
-| ------------------------ | ----------------------------------------- |
-| 🔻 Passenger Wait Time   | 15–25% reduction via proactive deployment |
-| 🔺 Driver Utilization    | 10–20% improvement during peak windows    |
-| 🔁 Missed/Declined Trips | 12–18% reduction in hot zones             |
-| 💸 Incentive Efficiency  | Plan surges/bonuses with less waste       |
-| 📈 Forecast Accuracy     | High R² with low RMSE on holdout periods  |
-
 
 ---
 
@@ -358,6 +346,18 @@ flowchart LR
 * **Weather** (rain/snow) elevates demand in certain zones; **holidays** alter typical weekday patterns
 * Temporal features (`lag_24`, `lag_168`) capture daily/weekly seasonality; recent **rolling stats** stabilize volatility
 * Tuned TF model achieves **low RMSE** and **high R²**, supporting reliable deployment for planning
+
+---
+
+### 📈 Impact
+
+| Metric                   | Projected Outcome                         |
+| ------------------------ | ----------------------------------------- |
+| 🔻 Passenger Wait Time   | 15–25% reduction via proactive deployment |
+| 🔺 Driver Utilization    | 10–20% improvement during peak windows    |
+| 🔁 Missed/Declined Trips | 12–18% reduction in hot zones             |
+| 💸 Incentive Efficiency  | Plan surges/bonuses with less waste       |
+| 📈 Forecast Accuracy     | High R² with low RMSE on holdout periods  |
 
 ---
 
